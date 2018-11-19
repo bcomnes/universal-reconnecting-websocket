@@ -80,6 +80,7 @@ Optional `opts` include:
     maxDelay: 20000 // https://github.com/MathieuTurcotte/node-backoff
   },
   transport, // native WebSockets, https://github.com/websockets/ws, or pass in your own
+  nodeOpts, // opts for ws in node https://github.com/websockets/ws/blob/master/doc/ws.md#new-websocketaddress-protocols-options
   failAfter: null, // fail after n failed connection attempts
   name: 'urws-' + Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1) // name timing events
 }

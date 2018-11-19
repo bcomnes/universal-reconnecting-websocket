@@ -3,6 +3,9 @@ const WebSocket = require('./websocket')
 const Nanobus = require('nanobus')
 const backoff = require('backoff')
 
+const isBrowser = process.title === 'browser'
+const isNative = !!global.WebSocket
+
 class URWS extends Nanobus {
   constructor (url, opts) {
     if (!url) throw new Error('URWS: missing url argument')
@@ -20,6 +23,7 @@ class URWS extends Nanobus {
       },
       failAfter: null,
       transport: WebSocket,
+      nodeOpts: null,
       name: 'urws-' + Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)
     }, opts)
     super(opts.name)
@@ -31,6 +35,7 @@ class URWS extends Nanobus {
     this.serializer = opts.serializer
     this.deserializer = opts.deserializer
     this.transport = opts.transport
+    this.nodeOpts = opts.nodeOpts
 
     this._state = 'disconnected'
     this._binaryType = opts.binaryType
@@ -89,7 +94,7 @@ class URWS extends Nanobus {
   _createSocket () {
     if (this.ws) this._destroySocket()
     const WS = this.transport
-    this.ws = new WS(this.url, this.protocols)
+    this.ws = (isNative && isBrowser) ? new WS(this.url, this.protocols) : new WS(this.url, this.protocols, this.nodeOpts)
     if (this._binaryType) {
       this.ws.binaryType = this._binaryType
     } else {
