@@ -13,7 +13,7 @@
     "test:node": "run-p test-server node:tests",
     "browser:server": "run-s test-server",
     "browser:tests": "browserify test/index.js | tape-run | tap-format-spec",
-    "node:tests": "tape 'test/index.js' | tap-format-spec",
+    "node:tests": "nyc tape 'test/index.js' | tap-format-spec",
     "node:server": "run-s test-server",
     "release": "git push && git push --tags && gh-release && npm publish",
     "browser": "budo test/index.js --live --open",
