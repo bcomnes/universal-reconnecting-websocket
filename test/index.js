@@ -11,8 +11,8 @@ test('test server is running and connectable', t => {
     ws.stop()
   })
 
-  ws.on('connect', ev => {
-    t.ok(ev, 'connected and received the connect event')
+  ws.on('connect', (ev) => {
+    t.pass('connected and received the connect event')
     setTimeout(() => ws.stop(), 500)
   })
 
@@ -27,7 +27,7 @@ test('test server is running and connectable', t => {
 test('test server can be stopped', t => {
   const ws = new URWS(path)
   ws.on('connect', ev => {
-    t.ok(ev, 'connected and received the connect event')
+    t.pass('connected and received the connect event')
     ws.send({
       action: 'stop'
     })

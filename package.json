@@ -7,14 +7,14 @@
     "debug": "node --nolazy --inspect-brk=9229 node_modules/.bin/tape 'test.js' | tap-format-spec",
     "report": "nyc report --reporter=text-lcov | coveralls",
     "test": "run-s test:*",
-    "test:deps": "dependency-check package.json --missing --unused --no-dev",
+    "test:deps": "dependency-check package.json --missing --unused --no-dev -i dom-event-handler",
     "test:lint": "standard --verbose | snazzy",
     "test:browser": "run-p browser:*",
-    "test:node": "run-p node:*",
+    "test:node": "run-p test-server node:tests",
     "browser:server": "run-s test-server",
     "browser:tests": "browserify test/index.js | tape-run | tap-format-spec",
+    "node:tests": "tape 'test/index.js' | tap-format-spec",
     "node:server": "run-s test-server",
-    "node:tests": "nyc tape 'test/index.js' | tap-format-spec",
     "release": "git push && git push --tags && gh-release && npm publish",
     "browser": "budo test/index.js --live --open",
     "test-server": "node ./test/server.js"
@@ -36,7 +36,8 @@
     "url": "https://github.com/bcomnes/universal-reconnecting-websocket/issues"
   },
   "browser": {
-    "./websocket.js": "./browser-websocket.js"
+    "./websocket.js": "./browser-websocket.js",
+    "node-event-handler": "dom-event-handler"
   },
   "homepage": "https://github.com/bcomnes/universal-reconnecting-websocket#readme",
   "devDependencies": {
@@ -59,7 +60,9 @@
   "dependencies": {
     "backoff": "^2.5.0",
     "dom-event-handler": "^1.0.3",
+    "lodash.get": "^4.4.2",
     "nanobus": "^4.3.5",
+    "node-event-handler": "^1.0.1",
     "ws": "^6.1.2"
   }
 }

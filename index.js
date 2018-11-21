@@ -1,7 +1,8 @@
-const DOMEventHandler = require('dom-event-handler')
+const EventHandler = require('node-event-handler')
 const WebSocket = require('./websocket')
 const Nanobus = require('nanobus')
 const backoff = require('backoff')
+const get = require('lodash.get')
 
 const isBrowser = process.title === 'browser'
 const isNative = !!global.WebSocket
@@ -28,7 +29,7 @@ class URWS extends Nanobus {
     }, opts)
     super(opts.name)
 
-    this.handler = new DOMEventHandler(this)
+    this.handler = new EventHandler(this)
     this.url = url
     this.ws = null
     this.protocols = opts.protocols
@@ -179,8 +180,9 @@ class URWS extends Nanobus {
 
   onmessage (ev) {
     try {
-      if (this.deserializer) ev.body = this.deserializer(ev.data)
-      this.emit('message', ev)
+      const data = get(ev, 'data', ev)
+      const body = this.deserializer ? this.deserializer(data) : data
+      this.emit('message', body)
     } catch (e) {
       e.ev = ev
       this._error(e)
