@@ -1,6 +1,6 @@
 {
   "name": "universal-reconnecting-websocket",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A universal, reconnecting, event based WebSocket abstraction with configurable backoff",
   "main": "index.js",
   "scripts": {
