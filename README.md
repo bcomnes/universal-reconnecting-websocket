@@ -146,11 +146,13 @@ Fired on the second and any subsequent successful connection attempts.  Useful f
 
 Fired after all event listeners have been removed and the websocket has been successfully closed.
 
-#### `ws.on('message', (ev) => {})`
+#### `ws.on('message', (data) => {})`
 
-Fired whenever the client receives a message from the WebSocket server.  The `ev` will be of type [MessageEvent](https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent).  See more on the [onmessage](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/onmessage) event.
+Fired whenever the client receives a message from the WebSocket server.  Data will be the contents of the received message.
 
-If the `opts.deserializer` option is set, the `ev.data` field will be deserialized into `ev.body`.  Any errors during that process will prevent the `message` event from firing, and an `error` event will be fired instead, with the original `ev` attached as `err.ev`.
+If the `opts.deserializer` option is set, the `ev.data` field will be deserialized into `ev.body`.  Any errors during that process will prevent the `message` event from firing, and an `error` event will be fired instead, with the original `ev` attached as `err.
+
+With native websockets, this event receives an `ev` will be of type [MessageEvent](https://developer.mozilla.org/en-US/docs/Web/API/MessageEvent), but only the data of the message is passed to the event listener.  See more on the [onmessage](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/onmessage) event.  If needed we can expose this, but for now its abstracted away in order to pairty `ws` in the browser.
 
 Setting the `opts.deserializer` option to `null` or `undefined` prevents any automatic attempts at deserializing and the `ev.body` property will be `undefined`.
 
@@ -163,7 +165,7 @@ Setting the `opts.deserializer` option to `null` or `undefined` prevents any aut
 [npm]: https://npmjs.org/package/universal-reconnecting-websocket
 [travisimg]: https://img.shields.io/travis/bcomnes/universal-reconnecting-websocket/master.svg
 [travis]: https://travis-ci.org/bcomnes/universal-reconnecting-websocket
-[downloadsimg]: http://img.shields.io/npm/dm/universal-reconnecting-websocket.svg
+[downloadsimg]: https://img.shields.io/npm/dm/universal-reconnecting-websocket.svg
 [downloads]: https://npmjs.org/package/universal-reconnecting-websocket
 [standardimg]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg
 [standard]: https://github.com/feross/standard
