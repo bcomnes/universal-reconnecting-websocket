@@ -17,7 +17,7 @@ const URWS = require("universal-reconnecting-websocket")
 
 const ws = new URWS('wss://example.com')
 
-ws.on('state', console.log) // handler connection state
+ws.on('state', console.log) // handle connection state
 ws.on('error', console.error) // handle / display errors
 ws.on('info', console.debug) // handle non-error status events
 
